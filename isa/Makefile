@@ -65,6 +65,10 @@ $$($(1)_evm_tests): $(1)-evm-%: $(1)/%.S
 	$$(RISCV_GCC) $(2) $$(RISCV_GCC_OPTS) -I$(src_dir)/../evm-env -I$(src_dir)/macros/scalar -T$(src_dir)/../evm-env/link.ld $$< -o $$@
 $(1)_tests += $$($(1)_evm_tests)
 
+$$($(1)_bitvm_tests): $(1)-bitvm-%: $(1)/%.S
+	$$(RISCV_GCC) $(2) $$(RISCV_GCC_OPTS) -I$(src_dir)/../bitvm-env -I$(src_dir)/macros/scalar -T$(src_dir)/../bitvm-env/link.ld $$< -o $$@
+$(1)_tests += $$($(1)_bitvm_tests)
+
 $$($(1)_v_tests): $(1)-v-%: $(1)/%.S
 	$$(RISCV_GCC) $(2) $$(RISCV_GCC_OPTS) -DENTROPY=0x$$(shell echo \$$@ | md5sum | cut -c 1-7) -std=gnu99 -O2 -I$(src_dir)/../env/v -I$(src_dir)/macros/scalar -T$(src_dir)/../env/v/link.ld $(src_dir)/../env/v/entry.S $(src_dir)/../env/v/*.c $$< -o $$@
 $(1)_tests += $$($(1)_v_tests)
